@@ -1,0 +1,29 @@
+{
+  "name": "app",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "yarn@4.6.0",
+  "scripts": {
+    "build": "esbuild app/javascript/application.ts --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:watch": "esbuild app/javascript/application.ts --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.12"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "esbuild": "^0.24.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
