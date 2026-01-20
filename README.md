@@ -72,9 +72,31 @@ Visit `http://localhost:3000`
 ### Running Tests
 
 ```bash
-bundle exec rspec    # Ruby tests
-yarn test            # JavaScript tests
+# Ruby tests (RSpec)
+bundle exec rspec              # Run all specs
+bundle exec rspec spec/models  # Run model specs only
+bundle exec rspec --format doc # Verbose output
+
+# JavaScript tests (Vitest)
+yarn test            # Run all tests once
+yarn test:watch      # Watch mode for development
 ```
+
+#### Ruby Testing Stack
+- **RSpec** - Testing framework
+- **FactoryBot** - Test data factories (`spec/factories/`)
+- **SimpleCov** - Code coverage (reports in `coverage/`)
+- **VCR/WebMock** - External API mocking
+
+#### JavaScript Testing Stack
+- **Vitest** - Fast test runner with native ES modules
+- **jsdom** - DOM environment for component testing
+
+Sample tests are provided in:
+- `spec/models/user_spec.rb` - Model validations and methods
+- `spec/requests/home_spec.rb` - Request/integration tests
+- `app/javascript/lib/format.test.ts` - Unit tests
+- `app/javascript/controllers/hello_controller.test.ts` - Stimulus controller tests
 
 ### Linting
 
@@ -122,7 +144,7 @@ In your GitHub repository, go to Settings > Secrets and variables > Actions, the
 - **Background Jobs**: SolidQueue
 - **Cache**: SolidCache (or Memcached for multi-process deployments)
 - **CSS**: TailwindCSS
-- **JavaScript**: TypeScript with esbuild, Hotwire (Turbo + Stimulus)
+- **JavaScript**: TypeScript with Vite, Hotwire (Turbo + Stimulus)
 - **JS Linting**: Biome (replaces ESLint + Prettier)
 - **Authentication**: Devise with Entra ID SSO
 - **Authorization**: CanCanCan
@@ -139,7 +161,8 @@ app/
   services/                              # Service objects
   queries/                               # Complex database queries
   javascript/
-    application.ts                       # Entry point
+    entrypoints/
+      application.ts                     # Vite entry point
     controllers/                         # Stimulus controllers (.ts)
     components/                          # React components (if needed)
     lib/                                 # Shared utilities
@@ -167,4 +190,4 @@ See internal deployment documentation.
 
 ## License
 
-Proprietary - Albers Group
+Proprietary - Albers Aerospace

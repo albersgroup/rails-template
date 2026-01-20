@@ -5,7 +5,7 @@ Project-specific instructions for AI coding assistants.
 ## Stack
 
 - Rails 8 with PostgreSQL
-- TypeScript with esbuild
+- TypeScript with Vite
 - Hotwire (Turbo + Stimulus) for interactivity
 - TailwindCSS for styling
 - Biome for JS/TS linting and formatting
@@ -37,11 +37,63 @@ Project-specific instructions for AI coding assistants.
 
 ### Testing
 
+#### Ruby (RSpec)
 - Write RSpec tests for all new code
-- Use FactoryBot for test data
+- Use FactoryBot for test data (see `spec/factories/`)
 - Use VCR/WebMock for external API mocking
 - Test files mirror app structure in `spec/`
-- Aim for 80%+ coverage
+- Use `build(:model)` for validation tests, `create(:model)` when persisting
+- Use Devise test helpers: `sign_in user` for request specs
+- Aim for 80%+ coverage (SimpleCov reports in `coverage/`)
+
+```ruby
+# Model spec example
+RSpec.describe User, type: :model do
+  it "requires an email" do
+    user = build(:user, email: nil)
+    expect(user).not_to be_valid
+  end
+end
+
+# Request spec example
+RSpec.describe "Home", type: :request do
+  let(:user) { create(:user) }
+  before { sign_in user }
+
+  it "returns success" do
+    get root_path
+    expect(response).to have_http_status(:success)
+  end
+end
+```
+
+#### JavaScript (Vitest)
+- Test files use `.test.ts` or `.spec.ts` extension
+- Place tests alongside source files or mirror structure
+- Use `jsdom` environment for DOM testing
+- For Stimulus controllers: set up Application, register controller, test DOM changes
+
+```typescript
+// Unit test example
+import { describe, expect, it } from "vitest"
+import { formatCurrency } from "./format"
+
+describe("formatCurrency", () => {
+  it("formats USD", () => {
+    expect(formatCurrency(1234.56)).toBe("$1,234.56")
+  })
+})
+
+// Stimulus controller test example
+import { Application } from "@hotwired/stimulus"
+import HelloController from "./hello_controller"
+
+beforeEach(() => {
+  application = Application.start()
+  application.register("hello", HelloController)
+  document.body.innerHTML = `<div data-controller="hello"></div>`
+})
+```
 
 ## Patterns
 

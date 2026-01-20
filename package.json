@@ -1,14 +1,17 @@
 {
-  "name": "app",
+  "name": "rails-template",
+  "description": "Rails 8.1 template with TypeScript, Vite, Devise authentication, and Microsoft Entra ID SSO",
   "private": true,
+  "license": "UNLICENSED",
+  "author": "Albers Aerospace",
   "type": "module",
   "engines": {
     "node": ">=20.0.0"
   },
   "packageManager": "yarn@4.6.0",
   "scripts": {
-    "build": "esbuild app/javascript/application.ts --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
-    "build:watch": "esbuild app/javascript/application.ts --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --watch",
+    "dev": "vite",
+    "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "biome check .",
@@ -18,12 +21,14 @@
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.12"
+    "@hotwired/turbo-rails": "^8.0.21"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "esbuild": "^0.24.2",
-    "typescript": "^5.7.3",
-    "vitest": "^2.1.8"
+    "jsdom": "^26.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.0.0",
+    "vite-plugin-rails": "^0.5.0",
+    "vitest": "^4.0.0"
   }
 }
