@@ -39,6 +39,17 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
       expect(user.errors[:password]).to include("is too short (minimum is 6 characters)")
     end
+
+    it "allows a name to be optional" do
+      user = build(:user, name: nil)
+      expect(user).to be_valid
+    end
+
+    it "allows a name to be set" do
+      user = build(:user, name: "Test User")
+      expect(user).to be_valid
+      expect(user.name).to eq("Test User")
+    end
   end
 
   describe ".from_omniauth" do
@@ -76,6 +87,33 @@ RSpec.describe User, type: :model do
       }.not_to change(User, :count)
 
       expect(User.from_omniauth(auth)).to eq(existing_user)
+    end
+
+    it "generates a random password for OAuth users" do
+      user = User.from_omniauth(auth)
+      expect(user.encrypted_password).to be_present
+    end
+  end
+
+  describe "devise modules" do
+    it "includes database_authenticatable" do
+      expect(User.devise_modules).to include(:database_authenticatable)
+    end
+
+    it "includes registerable" do
+      expect(User.devise_modules).to include(:registerable)
+    end
+
+    it "includes recoverable" do
+      expect(User.devise_modules).to include(:recoverable)
+    end
+
+    it "includes rememberable" do
+      expect(User.devise_modules).to include(:rememberable)
+    end
+
+    it "includes validatable" do
+      expect(User.devise_modules).to include(:validatable)
     end
   end
 end
