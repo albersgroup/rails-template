@@ -11,7 +11,20 @@ A Rails 8.1 template with TypeScript, Devise authentication, Microsoft Entra ID 
 
 ## Getting Started
 
-### 1. Clone and Setup
+### Option A: Dev Container (Recommended)
+
+The easiest way to get started is using [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) or [GitHub Codespaces](https://github.com/features/codespaces):
+
+1. Open the project in VS Code
+2. Click "Reopen in Container" when prompted (or run `Dev Containers: Reopen in Container` from the command palette)
+3. Wait for the container to build and dependencies to install
+4. Run `bin/dev` to start the development server
+
+The dev container includes Ruby, Node.js, Yarn, and PostgreSQL pre-configured.
+
+### Option B: Local Setup
+
+#### 1. Clone and Setup
 
 ```bash
 git clone <repo-url>
@@ -20,7 +33,7 @@ bundle install
 yarn install
 ```
 
-### 2. Configure Environment Variables
+#### 2. Configure Environment Variables
 
 Copy the example environment file and fill in your values:
 
@@ -34,7 +47,7 @@ Required variables:
 - `AZURE_CLIENT_SECRET` - Azure App Registration client secret
 - `AZURE_TENANT_ID` - Azure tenant ID
 
-### 3. Setup Azure Entra ID (SSO)
+#### 3. Setup Azure Entra ID (SSO)
 
 1. Go to [Azure Portal](https://portal.azure.com/) > Microsoft Entra ID > App registrations
 2. Click "New registration"
@@ -52,14 +65,14 @@ For production, add the production callback URL to the redirect URIs:
 https://your-domain.com/users/auth/entra_id/callback
 ```
 
-### 4. Setup Database
+#### 4. Setup Database
 
 ```bash
 bin/rails db:create
 bin/rails db:migrate
 ```
 
-### 5. Run the Application
+#### 5. Run the Application
 
 ```bash
 bin/dev
@@ -152,10 +165,11 @@ In your GitHub repository, go to Settings > Secrets and variables > Actions, the
 ## Project Structure
 
 ```
+.devcontainer/                           # VS Code Dev Container config
 app/
   controllers/
     users/
-      omniauth_callbacks_controller.rb  # SSO callback handling
+      omniauth_callbacks_controller.rb   # SSO callback handling
   models/
     user.rb                              # User model with SSO support
   services/                              # Service objects
@@ -170,12 +184,38 @@ spec/
   models/
   requests/
   factories/
+Dockerfile                               # Production container
 tsconfig.json                            # TypeScript configuration
 biome.json                               # Biome linter/formatter config
 CLAUDE.md                                # AI coding guidelines
 ```
 
 ## Deployment
+
+### Docker
+
+The application includes a production-ready Dockerfile:
+
+```bash
+# Build the image
+docker build -t rails-template .
+
+# Run the container
+docker run -d -p 80:80 \
+  -e RAILS_MASTER_KEY=<value from config/master.key> \
+  -e DATABASE_URL=<postgres-url> \
+  rails-template
+```
+
+### Kamal
+
+[Kamal](https://kamal-deploy.org/) is included for zero-downtime container deployments:
+
+```bash
+kamal setup    # First-time server setup
+kamal deploy   # Deploy the app
+kamal rollback # Roll back to previous version
+```
 
 ### Dokku (Internal Apps)
 

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+echo "==> Installing Ruby dependencies..."
+bundle install
+
+echo "==> Installing Node.js dependencies..."
+yarn install
+
+echo "==> Setting up database..."
+bin/rails db:prepare
+
+echo "==> Done! Run 'bin/dev' to start the development server."
