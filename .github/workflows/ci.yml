@@ -105,8 +105,11 @@ jobs:
       - name: Install JS dependencies
         run: yarn install --immutable
 
-      - name: Build assets
+      - name: Build JS assets
         run: yarn build
+
+      - name: Build CSS assets
+        run: bin/rails tailwindcss:build
 
       - name: Set up database
         run: bin/rails db:setup
