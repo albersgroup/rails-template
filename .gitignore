@@ -41,6 +41,12 @@
 
 /node_modules
 
+# Yarn
+.yarn/install-state.gz
+
+# Claude Code local settings
+.claude/settings.local.json
+
 # Vite Ruby
 /public/vite*
 node_modules
