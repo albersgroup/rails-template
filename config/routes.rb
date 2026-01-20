@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  # Only include omniauth_callbacks if Azure is configured
+  if ENV["AZURE_CLIENT_ID"].present?
+    devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  else
+    devise_for :users
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

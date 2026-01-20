@@ -10,5 +10,6 @@ yarn install
 
 echo "==> Setting up database..."
 bin/rails db:prepare
+bin/rails db:seed
 
 echo "==> Done! Run 'bin/dev' to start the development server."

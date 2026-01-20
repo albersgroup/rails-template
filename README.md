@@ -22,6 +22,10 @@ The easiest way to get started is using [VS Code Dev Containers](https://code.vi
 
 The dev container includes Ruby, Node.js, Yarn, and PostgreSQL pre-configured.
 
+A default development user is automatically created:
+- **Email**: `dev@example.com`
+- **Password**: `password`
+
 ### Option B: Local Setup
 
 #### 1. Clone and Setup
@@ -43,11 +47,15 @@ cp .env.example .env
 
 Required variables:
 - `DATABASE_URL` - PostgreSQL connection string
+
+Optional (for Azure SSO):
 - `AZURE_CLIENT_ID` - Azure App Registration client ID
 - `AZURE_CLIENT_SECRET` - Azure App Registration client secret
 - `AZURE_TENANT_ID` - Azure tenant ID
 
-#### 3. Setup Azure Entra ID (SSO)
+> **Note**: Azure SSO is optional. Without the Azure environment variables, the app uses standard email/password authentication.
+
+#### 3. Setup Azure Entra ID (SSO) - Optional
 
 1. Go to [Azure Portal](https://portal.azure.com/) > Microsoft Entra ID > App registrations
 2. Click "New registration"
@@ -68,9 +76,11 @@ https://your-domain.com/users/auth/entra_id/callback
 #### 4. Setup Database
 
 ```bash
-bin/rails db:create
-bin/rails db:migrate
+bin/rails db:prepare
+bin/rails db:seed
 ```
+
+This creates a development user: `dev@example.com` / `password`
 
 #### 5. Run the Application
 
@@ -159,7 +169,7 @@ In your GitHub repository, go to Settings > Secrets and variables > Actions, the
 - **CSS**: TailwindCSS
 - **JavaScript**: TypeScript with Vite, Hotwire (Turbo + Stimulus)
 - **JS Linting**: Biome (replaces ESLint + Prettier)
-- **Authentication**: Devise with Entra ID SSO
+- **Authentication**: Devise (email/password, with optional Entra ID SSO)
 - **Authorization**: CanCanCan
 
 ## Project Structure
