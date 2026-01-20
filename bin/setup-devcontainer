@@ -5,6 +5,7 @@ echo "==> Installing Ruby dependencies..."
 bundle install
 
 echo "==> Installing Node.js dependencies..."
+yarn config set --home enableTelemetry 0
 yarn install
 
 echo "==> Setting up database..."

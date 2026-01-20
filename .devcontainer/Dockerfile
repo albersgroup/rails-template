@@ -13,7 +13,14 @@ RUN apt-get update -qq && \
     curl \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Enable corepack for Yarn
+# Install Node.js
+ARG NODE_VERSION=20
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Enable corepack for Yarn (skip download prompt)
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 
 # Set working directory
@@ -33,6 +40,15 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && apt-get install -y sudo \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME \
-    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives \
+    && chown -R $USERNAME:$USERNAME /workspace \
+    && mkdir -p /home/$USERNAME/.bundle /workspace/node_modules \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.bundle /workspace/node_modules
 
 USER $USERNAME
+
+# Configure bundler for user installation
+ENV BUNDLE_PATH=/home/$USERNAME/.bundle \
+    GEM_HOME=/home/$USERNAME/.gems \
+    PATH="/home/$USERNAME/.gems/bin:$PATH" \
+    COREPACK_ENABLE_DOWNLOAD_PROMPT=0

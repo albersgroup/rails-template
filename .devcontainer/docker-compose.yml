@@ -5,8 +5,6 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspace:cached
-      - bundle:/usr/local/bundle
-      - node_modules:/workspace/node_modules
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/rails_template_development
       RAILS_ENV: development
@@ -25,6 +23,4 @@ services:
       POSTGRES_DB: rails_template_development
 
 volumes:
-  bundle:
-  node_modules:
   postgres-data:
