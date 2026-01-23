@@ -1,7 +1,7 @@
 { pkgs }: {
   deps = [
-    # Ruby 3.4.x (using latest available in nixpkgs)
-    pkgs.ruby_3_4
+    # Ruby (use latest stable version available)
+    pkgs.ruby_3_3
 
     # Node.js 20
     pkgs.nodejs_20
@@ -10,7 +10,7 @@
     pkgs.yarn
 
     # PostgreSQL client and libraries
-    pkgs.postgresql_16
+    pkgs.postgresql
 
     # Essential build tools
     pkgs.gcc
@@ -35,13 +35,6 @@
 
     # Foreman for process management (used by bin/dev)
     pkgs.foreman
-
-    # Language servers for IDE support
-    pkgs.rubyPackages.solargraph
-    pkgs.nodePackages.typescript-language-server
-
-    # Ruby debugger
-    pkgs.rubyPackages.debug
   ];
 
   env = {
@@ -52,13 +45,13 @@
       pkgs.libxml2
       pkgs.libxslt
       pkgs.readline
-      pkgs.postgresql_16
+      pkgs.postgresql
     ];
 
     # PostgreSQL library path for pg gem
-    LIBRARY_PATH = "${pkgs.postgresql_16}/lib";
+    LIBRARY_PATH = "${pkgs.postgresql}/lib";
 
     # Configure bundle to use system libraries
-    BUNDLE_BUILD__PG = "--with-pg-config=${pkgs.postgresql_16}/bin/pg_config";
+    BUNDLE_BUILD__PG = "--with-pg-config=${pkgs.postgresql}/bin/pg_config";
   };
 }
