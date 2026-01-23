@@ -1,0 +1,87 @@
+# Replit configuration for Rails 8 Template
+# This template includes Rails 8, PostgreSQL, TypeScript, Vite, and Tailwind CSS
+
+# Main entry point (what opens when you view the project)
+entrypoint = "README.md"
+
+# Command to run when the "Run" button is pressed
+# This starts the development server with Rails, Tailwind watcher, and Vite dev server
+run = ["bash", "-c", "bin/dev"]
+
+# Command to run on first boot (one-time setup)
+# This installs dependencies and prepares the database
+onBoot = ["bash", "-c", "bin/replit-setup"]
+
+# Language detection
+language = "ruby"
+
+# Audio support (disabled by default)
+audio = false
+
+# Hidden files (keep defaults hidden, show configuration files)
+hidden = [".bundle", "tmp", "log", "node_modules", ".git"]
+
+# Port configuration for Rails server
+[[ports]]
+localPort = 3000
+externalPort = 80
+exposeLocalhost = true
+
+# Environment variables
+# These should be set in Replit Secrets for security
+[env]
+RAILS_ENV = "development"
+PORT = "3000"
+NODE_ENV = "development"
+
+# Deployment configuration
+[deployment]
+run = ["bash", "-c", "bin/rails db:migrate && bin/rails server -b 0.0.0.0 -p $PORT"]
+build = ["bash", "-c", "bundle install && yarn install && SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile"]
+deploymentTarget = "cloudrun"
+
+# Language server configuration
+[languages.ruby]
+pattern = "**/*.rb"
+
+[languages.ruby.languageServer]
+start = "solargraph stdio"
+
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
+
+[languages.javascript.languageServer]
+start = "typescript-language-server --stdio"
+
+# Debugger configuration
+[debugger]
+support = true
+
+[debugger.interactive]
+transport = "localhost:0"
+startCommand = ["dap-ruby"]
+
+[debugger.interactive.initializeMessage]
+command = "initialize"
+type = "request"
+
+[debugger.interactive.initializeMessage.arguments]
+clientID = "replit"
+clientName = "replit.com"
+columnsStartAt1 = true
+linesStartAt1 = true
+locale = "en-us"
+pathFormat = "path"
+supportsInvalidatedEvent = true
+supportsProgressReporting = true
+supportsRunInTerminalRequest = true
+supportsVariablePaging = true
+supportsVariableType = true
+
+[debugger.interactive.launchMessage]
+command = "launch"
+type = "request"
+
+[debugger.interactive.launchMessage.arguments]
+args = []
+program = "bin/rails server"

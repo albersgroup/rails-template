@@ -56,3 +56,6 @@ node_modules
 # Vite temporary files
 vite.config.ts.timestamp-*.mjs
 
+# Replit
+.replit-initialized
+

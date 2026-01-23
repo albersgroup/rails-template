@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# Replit-specific setup script
+# This runs on first boot and ensures the environment is ready
+
+set -e
+
+echo "🚀 Starting Replit environment setup..."
+
+# Check if this is the first run
+FIRST_RUN=false
+if [ ! -f ".replit-initialized" ]; then
+  FIRST_RUN=true
+  echo "📦 First run detected - performing full setup"
+fi
+
+# Install Ruby dependencies
+if [ ! -d "vendor/bundle" ] || [ "$FIRST_RUN" = true ]; then
+  echo "💎 Installing Ruby gems..."
+  bundle config set --local deployment 'false'
+  bundle config set --local path 'vendor/bundle'
+  bundle install --jobs=4 --retry=3
+else
+  echo "✓ Ruby gems already installed"
+fi
+
+# Install Node dependencies
+if [ ! -d "node_modules" ] || [ "$FIRST_RUN" = true ]; then
+  echo "📦 Installing Node packages..."
+  yarn install --frozen-lockfile
+else
+  echo "✓ Node packages already installed"
+fi
+
+# Check for required environment variables
+echo "🔐 Checking environment variables..."
+if [ -z "$DATABASE_URL" ]; then
+  echo "⚠️  WARNING: DATABASE_URL not set!"
+  echo "   Please set this in Replit Secrets to connect to PostgreSQL"
+  echo "   Example: postgresql://user:password@host:5432/database_name"
+fi
+
+if [ -z "$RAILS_MASTER_KEY" ] && [ ! -f "config/master.key" ]; then
+  echo "⚠️  WARNING: RAILS_MASTER_KEY not set and config/master.key not found!"
+  echo "   The app may not be able to decrypt credentials"
+  echo "   Set this in Replit Secrets if using encrypted credentials"
+fi
+
+# Setup database (only if DATABASE_URL is set)
+if [ -n "$DATABASE_URL" ]; then
+  echo "🗄️  Setting up database..."
+  if [ "$FIRST_RUN" = true ]; then
+    # First run: create and migrate
+    bin/rails db:prepare || {
+      echo "⚠️  Database setup failed. This is normal if the database doesn't exist yet."
+      echo "   The database will be created when you first run the app."
+    }
+  else
+    # Subsequent runs: just migrate if needed
+    bin/rails db:migrate 2>/dev/null || echo "✓ Database already up to date"
+  fi
+else
+  echo "⚠️  Skipping database setup (DATABASE_URL not set)"
+fi
+
+# Clear tmp files
+echo "🧹 Cleaning temporary files..."
+bin/rails tmp:clear 2>/dev/null || true
+bin/rails log:clear 2>/dev/null || true
+
+# Precompile assets in production (not needed in development)
+if [ "$RAILS_ENV" = "production" ]; then
+  echo "🎨 Precompiling assets..."
+  SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
+fi
+
+# Mark as initialized
+touch .replit-initialized
+
+echo ""
+echo "✅ Setup complete!"
+echo ""
+echo "📝 Next steps:"
+if [ -z "$DATABASE_URL" ]; then
+  echo "   1. Set up PostgreSQL database in Replit"
+  echo "   2. Add DATABASE_URL to Replit Secrets"
+fi
+if [ -z "$RAILS_MASTER_KEY" ] && [ ! -f "config/master.key" ]; then
+  echo "   3. Add RAILS_MASTER_KEY to Replit Secrets (if using encrypted credentials)"
+fi
+echo "   4. Click the 'Run' button to start the development server"
+echo ""
+echo "📚 For more information, see REPLIT.md"
+echo ""
