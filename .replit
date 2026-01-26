@@ -20,12 +20,16 @@ audio = false
 
 # Hidden files (keep defaults hidden, show configuration files)
 hidden = [".bundle", "tmp", "log", "node_modules", ".git"]
+modules = ["python-3.11", "nodejs-20"]
 
-# Port configuration for Rails server
 [[ports]]
 localPort = 3000
 externalPort = 80
 exposeLocalhost = true
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
 
 # Environment variables
 # These should be set in Replit Secrets for security
@@ -85,3 +89,31 @@ type = "request"
 [debugger.interactive.launchMessage.arguments]
 args = []
 program = "bin/rails server"
+
+[nix]
+channel = "stable-25_05"
+packages = ["ruby", "postgresql", "libyaml", "zlib", "openssl", "pkg-config"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Rails Server"
+
+[[workflows.workflow]]
+name = "Rails Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bundle exec rails server -b 0.0.0.0 -p 5000"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
