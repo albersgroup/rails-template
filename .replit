@@ -85,3 +85,6 @@ type = "request"
 [debugger.interactive.launchMessage.arguments]
 args = []
 program = "bin/rails server"
+
+[agent]
+expertMode = true
