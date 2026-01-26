@@ -25,18 +25,9 @@ Rails.application.configure do
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :none
 
+  # Allow all hosts in test environment
   config.hosts.clear
   config.hosts << /.*/
-  config.hosts << "www.example.com"
-  config.hosts << "example.com"
-  config.hosts << ".example.com"
-  config.hosts << "127.0.0.1"
-  config.hosts << "localhost"
-
-  # Middleware to force the host for tests if needed
-  config.middleware.insert_before ActionDispatch::HostAuthorization, Rack::Config do |env|
-    env['HTTP_HOST'] = 'www.example.com' if env['HTTP_HOST'].blank? || env['HTTP_HOST'] == '127.0.0.1'
-  end
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
