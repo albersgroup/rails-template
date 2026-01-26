@@ -23,7 +23,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
-  config.action_dispatch.show_exceptions = :none
+  config.action_dispatch.show_exceptions = :rescuable
 
   # Allow all hosts in test environment
   config.hosts.clear
