@@ -26,8 +26,8 @@ Rails.application.configure do
   config.action_dispatch.show_exceptions = :rescuable
 
   # Allow all hosts in test environment
-  config.hosts.clear
-  config.hosts << /.*/
+  config.hosts << "example.com"
+  config.hosts << "www.example.com"
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

@@ -31,17 +31,18 @@ exposeLocalhost = true
 localPort = 5000
 externalPort = 5000
 
-# Environment variables
-# These should be set in Replit Secrets for security
-[env]
-RAILS_ENV = "development"
-PORT = "3000"
-NODE_ENV = "development"
-
 # Deployment configuration
 [deployment]
-run = ["bash", "-c", "bin/rails db:migrate && bin/rails server -b 0.0.0.0 -p $PORT"]
-build = ["bash", "-c", "bundle install && yarn install && SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile"]
+run = [
+  "bash",
+  "-c",
+  "bin/rails db:migrate && bin/rails server -b 0.0.0.0 -p $PORT",
+]
+build = [
+  "bash",
+  "-c",
+  "bundle install && yarn install && SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile",
+]
 deploymentTarget = "cloudrun"
 
 # Language server configuration
