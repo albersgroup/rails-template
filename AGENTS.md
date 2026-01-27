@@ -1,4 +1,4 @@
-# Claude Coding Guidelines
+# Agent Coding Guidelines
 
 Project-specific instructions for AI coding assistants.
 
@@ -30,7 +30,8 @@ Project-specific instructions for AI coding assistants.
 - Run `yarn lint` for Biome linting, `yarn format` for formatting
 
 **When to escalate to React:**
-- Complex client-side state management
+- ALWAYS attempt to write frontend code with Stimulus controllers first.
+- Escalate to React if you end up with complex client-side state management
 - Heavy real-time UI updates
 - Deeply nested controller interactions
 - Reusable component libraries
@@ -40,7 +41,7 @@ Project-specific instructions for AI coding assistants.
 #### Ruby (RSpec)
 - Write RSpec tests for all new code
 - Use FactoryBot for test data (see `spec/factories/`)
-- Use VCR/WebMock for external API mocking
+- Use WebMock for external API mocking
 - Test files mirror app structure in `spec/`
 - Use `build(:model)` for validation tests, `create(:model)` when persisting
 - Use Devise test helpers: `sign_in user` for request specs
@@ -72,6 +73,7 @@ end
 - Place tests alongside source files or mirror structure
 - Use `jsdom` environment for DOM testing
 - For Stimulus controllers: set up Application, register controller, test DOM changes
+- For React components: use React Testing Library
 
 ```typescript
 // Unit test example
@@ -100,7 +102,8 @@ beforeEach(() => {
 ### Authentication
 
 - Devise handles authentication
-- SSO via Microsoft Entra ID (Azure AD)
+  - In development: local username and password credentials
+  - In production: SSO via Microsoft Entra ID (Azure AD)
 - Check authentication with `authenticate_user!` before_action
 - Access current user with `current_user`
 
@@ -165,8 +168,3 @@ spec/
 - Don't commit `.env` files or credentials
 - Don't skip tests for "simple" changes
 
-## Replit Specifics
-- **User Preference**: Preferred communication style is simple, everyday language.
-- **Backend Architecture**: Rails 8.1 template.
-- **Frontend Architecture**: TailwindCSS compiled from `app/assets/tailwind/application.css`.
-- **Environment**: PostgreSQL 14+ primary database, connection via `DATABASE_URL`.
