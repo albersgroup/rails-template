@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: albersgroup/claude-tool-review-action@v1
+      - uses: albersgroup/claude-tool-review-action@v2.0
         with:
-          api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
