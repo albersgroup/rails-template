@@ -5,6 +5,7 @@ FROM ruby:${RUBY_VERSION}
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     build-essential \
+    bash-completion \
     git \
     libpq-dev \
     libyaml-dev \
@@ -46,6 +47,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && chown -R $USERNAME:$USERNAME /home/$USERNAME/.bundle /workspace/node_modules
 
 USER $USERNAME
+
+# Configure bash completion for git and other tools
+RUN echo '# Enable bash completion' >> /home/$USERNAME/.bashrc \
+    && echo 'if [ -f /usr/share/bash-completion/bash_completion ]; then' >> /home/$USERNAME/.bashrc \
+    && echo '  . /usr/share/bash-completion/bash_completion' >> /home/$USERNAME/.bashrc \
+    && echo 'fi' >> /home/$USERNAME/.bashrc
 
 # Configure bundler for user installation
 ENV BUNDLE_PATH=/home/$USERNAME/.bundle \

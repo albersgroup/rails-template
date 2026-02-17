@@ -1,33 +1,43 @@
 {
-  "name": "Rails Template",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspace",
-  "postCreateCommand": "bin/setup-devcontainer",
-  "forwardPorts": [3000, 5432],
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "Shopify.ruby-lsp",
-        "biomejs.biome",
-        "bradlc.vscode-tailwindcss",
-        "eamodio.gitlens",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "wayou.vscode-todo-highlight"
-      ],
-      "settings": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "biomejs.biome",
-        "[ruby]": {
-          "editor.defaultFormatter": "Shopify.ruby-lsp",
-          "editor.formatOnSave": true
-        },
-        "rubyLsp.formatter": "auto",
-        "files.associations": {
-          "*.html.erb": "erb"
+    "name": "Rails Template",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "bin/setup-devcontainer",
+    "forwardPorts": [
+        3000,
+        5432
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Shopify.ruby-lsp",
+                "biomejs.biome",
+                "bradlc.vscode-tailwindcss",
+                "eamodio.gitlens",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "wayou.vscode-todo-highlight"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "biomejs.biome",
+                "[ruby]": {
+                    "editor.defaultFormatter": "Shopify.ruby-lsp",
+                    "editor.formatOnSave": true
+                },
+                "rubyLsp.formatter": "auto",
+                "files.associations": {
+                    "*.html.erb": "erb"
+                },
+                "files.insertFinalNewline": true,
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash"
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
