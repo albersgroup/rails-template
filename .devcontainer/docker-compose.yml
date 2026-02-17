@@ -6,7 +6,9 @@ services:
     volumes:
       - ..:/workspace:cached
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/rails_template_development
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       RAILS_ENV: development
     depends_on:
       - db
