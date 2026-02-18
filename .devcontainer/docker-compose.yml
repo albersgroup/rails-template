@@ -4,7 +4,10 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
     volumes:
-      - ..:/workspace:cached
+      # IMPORTANT: Change APP_NAME to match your repository name.
+      # Must match workspaceFolder in devcontainer.json and WORKDIR in Dockerfile.
+      - ..:/workspaces/APP_NAME:cached
+      - /etc/localtime:/etc/localtime:ro
     environment:
       POSTGRES_HOST: db
       POSTGRES_USER: postgres

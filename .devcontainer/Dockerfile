@@ -25,7 +25,9 @@ ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 
 # Set working directory
-WORKDIR /workspace
+# IMPORTANT: Change APP_NAME to match your repository name.
+# Must match workspaceFolder in devcontainer.json and the volume in docker-compose.yml.
+WORKDIR /workspaces/APP_NAME
 
 # Install bundler
 RUN gem install bundler
@@ -42,9 +44,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives \
-    && chown -R $USERNAME:$USERNAME /workspace \
-    && mkdir -p /home/$USERNAME/.bundle /workspace/node_modules \
-    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.bundle /workspace/node_modules
+    && chown -R $USERNAME:$USERNAME /workspaces/APP_NAME \
+    && mkdir -p /home/$USERNAME/.bundle /workspaces/APP_NAME/node_modules \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.bundle /workspaces/APP_NAME/node_modules
 
 USER $USERNAME
 

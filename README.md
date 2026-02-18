@@ -11,6 +11,26 @@ A Rails 8.1 template with TypeScript, Devise authentication, Microsoft Entra ID 
 
 ## Getting Started
 
+### Copying This Template to a New Project
+
+When you fork or copy this template, update **all three** of the following locations to replace `APP_NAME` with your repository name (e.g. `my-app`). They must all match or path-keyed tooling will break.
+
+| File | What to change |
+|------|----------------|
+| `.devcontainer/devcontainer.json` | `"workspaceFolder": "/workspaces/APP_NAME"` |
+| `.devcontainer/docker-compose.yml` | `..:/workspaces/APP_NAME:cached` |
+| `.devcontainer/Dockerfile` | `WORKDIR /workspaces/APP_NAME` and the `chown` lines below it |
+
+**Claude Code memory**: Claude Code keys its project memory to the workspace path. A mismatch means memory is silently lost on every rebuild. Fix the path first.
+
+**Claude Code mount** (projects where Claude is approved): Add this to the `mounts` array in `devcontainer.json` so session memory persists across container rebuilds:
+
+```json
+"source=${localEnv:HOME}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached"
+```
+
+Remove or omit this mount on projects where Claude Code is not an approved tool.
+
 ### Option A: Dev Container (Recommended)
 
 The easiest way to get started is using [VS Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) or [GitHub Codespaces](https://github.com/features/codespaces):

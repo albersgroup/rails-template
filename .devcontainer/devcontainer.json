@@ -2,8 +2,19 @@
     "name": "Rails Template",
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
-    "workspaceFolder": "/workspace",
+    // IMPORTANT: When copying this template to a new project, change APP_NAME below
+    // to match your repository name (e.g. "/workspaces/my-app"). This must also be
+    // updated in docker-compose.yml and .devcontainer/Dockerfile. Mismatches will
+    // break path-keyed tools like Claude Code memory persistence.
+    "workspaceFolder": "/workspaces/APP_NAME",
     "postCreateCommand": "bin/setup-devcontainer",
+    "mounts": [
+        // Mount host git identity so commits inside the container have an author.
+        "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached,readonly",
+        // Mount Claude Code config so session memory persists across container rebuilds.
+        // REMOVE THIS MOUNT if Claude Code is not approved for use on this project.
+        "source=${localEnv:HOME}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached"
+    ],
     "forwardPorts": [
         3000,
         5432
