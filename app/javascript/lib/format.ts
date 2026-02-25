@@ -1,9 +1,9 @@
 /**
  * Format a number as currency
  */
-export function formatCurrency(amount: number, currency = "USD"): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
+export function formatCurrency(amount: number, currency = 'USD'): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
     currency,
   }).format(amount)
 }
@@ -22,7 +22,7 @@ export function truncate(str: string, maxLength: number): string {
 export function toTitleCase(str: string): string {
   return str
     .toLowerCase()
-    .split(" ")
+    .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ")
+    .join(' ')
 }
