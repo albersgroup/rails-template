@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+echo "==> Clearing caches..."
+rm -rf tmp/cache/bootsnap
+
 echo "==> Installing Ruby dependencies..."
 bundle install
 

@@ -56,8 +56,6 @@ RUN echo '# Enable bash completion' >> /home/$USERNAME/.bashrc \
     && echo '  . /usr/share/bash-completion/bash_completion' >> /home/$USERNAME/.bashrc \
     && echo 'fi' >> /home/$USERNAME/.bashrc
 
-# Configure bundler for user installation
+# Configure bundler to install gems in the user's home directory
 ENV BUNDLE_PATH=/home/$USERNAME/.bundle \
-    GEM_HOME=/home/$USERNAME/.gems \
-    PATH="/home/$USERNAME/.gems/bin:$PATH" \
     COREPACK_ENABLE_DOWNLOAD_PROMPT=0
