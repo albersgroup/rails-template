@@ -23,8 +23,7 @@
   "files": {
     "include": [
       "app/javascript/**/*.ts",
-      "app/javascript/**/*.tsx",
-      "app/javascript/**/*.js"
+      "app/javascript/**/*.tsx"
     ],
     "ignore": ["node_modules", "vendor"]
   }

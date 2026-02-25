@@ -131,7 +131,7 @@ yarn test:watch      # Watch mode for development
 - **SimpleCov** - Code coverage (reports in `coverage/`)
 - **VCR/WebMock** - External API mocking
 
-#### JavaScript Testing Stack
+#### TypeScript Testing Stack
 - **Vitest** - Fast test runner with native ES modules
 - **jsdom** - DOM environment for component testing
 

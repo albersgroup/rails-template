@@ -80,7 +80,7 @@ RSpec.describe "Home", type: :request do
 end
 ```
 
-#### JavaScript (Vitest)
+#### TypeScript (Vitest)
 - Test files use `.test.ts` or `.spec.ts` extension
 - Place tests alongside source files or mirror structure
 - Use `jsdom` environment for DOM testing
