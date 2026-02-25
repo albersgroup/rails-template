@@ -21,10 +21,7 @@
     }
   },
   "files": {
-    "include": [
-      "app/javascript/**/*.ts",
-      "app/javascript/**/*.tsx"
-    ],
+    "include": ["app/javascript/**/*.ts", "app/javascript/**/*.tsx"],
     "ignore": ["node_modules", "vendor"]
   }
 }

@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: albersgroup/claude-tool-review-action@v2.7
+      - uses: albersgroup/claude-tool-review-action@v2
         with:
           oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          review_mode: quick
 

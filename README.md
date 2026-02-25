@@ -172,14 +172,17 @@ The repository includes two workflows:
 - RuboCop linting
 - RSpec tests
 
-**ai-review.yml** - Claude-powered code review:
+**ai-review.yml** - Claude-powered code review ([albersgroup/claude-tool-review-action](https://github.com/albersgroup/claude-tool-review-action)):
 - Triggered by adding the `ai-review` label to a PR
-- Requires `ANTHROPIC_API_KEY` secret in repository settings
+- Supports two authentication methods (choose one):
+  - **OAuth token** (default) — uses a Claude Max/Pro subscription. Generate with `claude setup-token`
+  - **API key** — pay-per-use with an Anthropic API key from [console.anthropic.com](https://console.anthropic.com)
 
 ### Setting Up CI Secrets
 
-In your GitHub repository, go to Settings > Secrets and variables > Actions, then add:
-- `ANTHROPIC_API_KEY` - Your Anthropic API key (for AI code reviews)
+In your GitHub repository, go to Settings > Secrets and variables > Actions, then add **one** of:
+- `CLAUDE_CODE_OAUTH_TOKEN` - OAuth token for Claude Max/Pro subscribers (generate with `claude setup-token`)
+- `ANTHROPIC_API_KEY` - Anthropic API key for pay-per-use billing
 
 ## Architecture
 
