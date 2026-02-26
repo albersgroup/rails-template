@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+cleanup() {
+  trap '' SIGTERM SIGINT  # Ignore further signals during cleanup
+  kill "$web_pid" "$css_pid" "$vite_pid" 2>/dev/null
+  wait "$web_pid" "$css_pid" "$vite_pid" 2>/dev/null
+  exit 0
+}
+
+trap cleanup SIGTERM SIGINT
+
+bin/rails server &
+web_pid=$!
+bin/rails tailwindcss:watch[always] &
+css_pid=$!
+bin/vite dev &
+vite_pid=$!
+
+# Wait briefly for servers to start, then print the access URL
+sleep 3
+echo ""
+echo "==> App running at http://localhost:${HOST_PORT:-3000}"
+echo ""
+
+wait

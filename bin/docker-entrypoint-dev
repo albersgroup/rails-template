@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+echo "==> Installing Ruby dependencies..."
+bundle install
+
+echo "==> Installing JavaScript dependencies..."
+yarn install
+
+# Generate credentials if master.key is missing or doesn't match credentials.yml.enc
+if [ ! -f config/master.key ] || ! bin/rails credentials:show > /dev/null 2>&1; then
+  echo "==> Generating fresh credentials (missing or mismatched key)..."
+  rm -f config/master.key config/credentials.yml.enc
+  EDITOR="true" bin/rails credentials:edit
+fi
+
+echo "==> Preparing database..."
+bin/rails db:prepare
+
+echo "==> Seeding database..."
+bin/rails db:seed
+
+# Remove stale PID file (prevents "server is already running" errors)
+rm -f tmp/pids/server.pid
+
+echo "==> Starting application..."
+exec "$@"

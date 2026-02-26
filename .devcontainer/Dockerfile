@@ -29,8 +29,8 @@ RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 # Must match workspaceFolder in devcontainer.json and the volume in docker-compose.yml.
 WORKDIR /workspaces/APP_NAME
 
-# Install bundler
-RUN gem install bundler
+# Install bundler and foreman (used by bin/dev and docker compose)
+RUN gem install bundler foreman
 
 # Create a non-root user
 ARG USERNAME=vscode

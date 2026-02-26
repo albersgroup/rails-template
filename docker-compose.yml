@@ -1,0 +1,63 @@
+# Standalone development compose file — works without VS Code or devcontainers.
+#
+# Usage:
+#   docker compose build
+#   docker compose up
+#
+# The app will be available at http://localhost:3000 once startup completes.
+# First run takes longer while gems, node modules, and the database are set up.
+#
+# Useful commands:
+#   docker compose exec app bash          # shell into the container
+#   docker compose exec app bin/rails c   # Rails console
+#   docker compose exec app bin/rspec     # run tests
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    # IMPORTANT: Change APP_NAME below (and in .devcontainer/Dockerfile,
+    # .devcontainer/docker-compose.yml, .devcontainer/devcontainer.json)
+    # to match your repository name.
+    volumes:
+      - .:/workspaces/APP_NAME:cached
+      - bundle_cache:/home/vscode/.bundle
+      - node_modules:/workspaces/APP_NAME/node_modules
+    ports:
+      - "3000:3000"
+      - "3036:3036"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      RAILS_ENV: development
+      VITE_RUBY_HOST: 0.0.0.0
+      BINDING: 0.0.0.0
+      PORT: 3000
+      HOST_PORT: 3000
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: bin/docker-entrypoint-dev
+    command: bin/docker-dev
+
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: APP_NAME_development
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  bundle_cache:
+  node_modules:
+  postgres-data:
