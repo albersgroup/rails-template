@@ -20,6 +20,7 @@ When you fork or copy this template, update **all three** of the following locat
 | `.devcontainer/devcontainer.json` | `"workspaceFolder": "/workspaces/APP_NAME"` |
 | `.devcontainer/docker-compose.yml` | `..:/workspaces/APP_NAME:cached` |
 | `.devcontainer/Dockerfile` | `WORKDIR /workspaces/APP_NAME` and the `chown` lines below it |
+| `docker-compose.yml` | Volume paths, `HOST_PORT`, and `POSTGRES_DB` |
 
 **Claude Code memory**: Claude Code keys its project memory to the workspace path. A mismatch means memory is silently lost on every rebuild. Fix the path first.
 
@@ -46,7 +47,32 @@ A default development user is automatically created:
 - **Email**: `dev@example.com`
 - **Password**: `password`
 
-### Option B: Local Setup
+### Option B: Docker Compose (without VS Code)
+
+If you prefer plain Docker without VS Code or devcontainers:
+
+```bash
+docker compose build
+docker compose up
+```
+
+The app will be available at `http://localhost:3000` once startup completes. The first run takes longer while gems, node modules, and the database are set up.
+
+A default development user is automatically created:
+- **Email**: `dev@example.com`
+- **Password**: `password`
+
+Useful commands:
+
+```bash
+docker compose exec app bash          # Shell into the container
+docker compose exec app bin/rails c   # Rails console
+docker compose exec app bin/rspec     # Run tests
+```
+
+If port 3000 is already in use, change the host port mapping in `docker-compose.yml` (e.g. `"3007:3000"`) and update `HOST_PORT` to match.
+
+### Option C: Local Setup
 
 #### 1. Clone and Setup
 
@@ -218,6 +244,7 @@ spec/
   requests/
   factories/
 Dockerfile                               # Production container
+docker-compose.yml                       # Standalone dev compose (no VS Code needed)
 tsconfig.json                            # TypeScript configuration
 biome.json                               # Biome linter/formatter config
 CLAUDE.md                                # AI coding guidelines
