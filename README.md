@@ -4,6 +4,10 @@ A Rails 8.1 template with TypeScript, Devise authentication, Microsoft Entra ID 
 
 ## Prerequisites
 
+**Options A & B (Dev Container / Docker Compose):**
+- Docker
+
+**Option C (Local Setup):**
 - Ruby 3.4+ (see `.ruby-version`)
 - Node.js 20+
 - Yarn 4+ (via corepack: `corepack enable`)
