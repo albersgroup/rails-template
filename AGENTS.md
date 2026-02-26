@@ -4,11 +4,12 @@ Project-specific instructions for AI coding assistants.
 
 ## Template Setup Reminder
 
-If this project was created from the rails-template, verify the devcontainer workspace path has been updated from the placeholder. The path `APP_NAME` must be replaced with the actual repository name in **all three files** before the devcontainer will work correctly:
+If this project was created from the rails-template, verify the devcontainer workspace path has been updated from the placeholder. The path `APP_NAME` must be replaced with the actual repository name in **all four files** before the devcontainer or Docker Compose setup will work correctly:
 
 - `.devcontainer/devcontainer.json` → `workspaceFolder`
 - `.devcontainer/docker-compose.yml` → volume mount path
 - `.devcontainer/Dockerfile` → `WORKDIR` and `chown` lines
+- `docker-compose.yml` → volume paths, `HOST_PORT`, and `POSTGRES_DB`
 
 **Why this matters**: Claude Code stores project memory keyed to the workspace path (`/workspaces/<name>`). If `APP_NAME` is left as-is or mismatched across files, memory will not persist between sessions. If you notice the workspace path looks wrong, flag it to the user before continuing.
 
