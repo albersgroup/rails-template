@@ -11,6 +11,8 @@
     "mounts": [
         // Mount host git identity so commits inside the container have an author.
         "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached,readonly",
+        // Mount host SSH config so git can reach GitHub over port 443 inside the container.
+        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached,readonly",
         // Mount Claude Code config so session memory persists across container rebuilds.
         // REMOVE THIS MOUNT if Claude Code is not approved for use on this project.
         "source=${localEnv:HOME}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached"
