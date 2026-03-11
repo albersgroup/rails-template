@@ -17,6 +17,9 @@ fi
 echo "==> Preparing database..."
 bin/rails db:prepare
 
+echo "==> Preparing test database..."
+RAILS_ENV=test bin/rails db:prepare
+
 echo "==> Seeding database..."
 bin/rails db:seed
 
